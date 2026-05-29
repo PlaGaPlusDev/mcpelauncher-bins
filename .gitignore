@@ -1,0 +1,10 @@
+# Ignore actual binary directories (these should not be in the repo)
+/bin/
+/libs_mc/
+
+# Ignore generated tar.gz archives
+*.tar.gz
+
+# Ignore OS junk
+.DS_Store
+Thumbs.db
