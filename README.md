@@ -2,6 +2,8 @@
 
 Pre-compiled mcpelauncher binaries and libraries, packaged for use in Cianova Launcher builds.
 
+This repository stores ready-to-use `.tar.gz` archives containing the compiled `mcpelauncher-client`, `mcpelauncher-extract`, and required shared libraries. Each archive is versioned and consumed directly by the Cianova Launcher CI/CD pipeline to build Flatpak and portable releases — no need to rebuild mcpelauncher from source every time.
+
 ## Structure
 
 Each release is a `.tar.gz` with this internal layout:
