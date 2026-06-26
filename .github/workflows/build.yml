@@ -29,10 +29,16 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y cmake ninja-build clang llvm \
-            libssl-dev libegl1-mesa-dev libgles2-mesa-dev \
-            libx11-dev libpng-dev libudev-dev libevdev-dev \
-            libdbus-1-dev libxkbcommon-dev libfontconfig-dev \
-            libfreetype-dev zlib1g-dev \
+            libssl-dev \
+            libegl1-mesa-dev libgles2-mesa-dev libgl1-mesa-dev \
+            libx11-dev libxext-dev libxrandr-dev libxrender-dev \
+            libxcursor-dev libxi-dev libxfixes-dev libxinerama-dev \
+            libxkbcommon-dev libxkbcommon-x11-dev \
+            libpng-dev libjpeg-dev \
+            libudev-dev libevdev-dev \
+            libdbus-1-dev libfontconfig-dev libfreetype-dev \
+            zlib1g-dev \
+            libgbm-dev libdrm-dev libglu1-mesa-dev \
             qt6-base-dev qt6-webengine-dev qt6-declarative-dev \
             libpulse-dev libasound2-dev
 
