@@ -56,13 +56,17 @@ jobs:
           rm -rf bin libs_mc
           mkdir -p bin libs_mc/lib/x86_64
 
+          BUILD="../manifest/build"
+
           # Del manifest compilado
-          cp ../manifest/build/mcpelauncher-client/mcpelauncher-client bin/
-          cp ../manifest/build/mcpelauncher-client/mcpelauncher-webview bin/
-          cp ../manifest/build/mcpelauncher-client/mcpelauncher-error  bin/
-          cp ../manifest/build/mcpelauncher-client/msa-daemon          bin/
-          cp ../manifest/build/mcpelauncher-client/libmcpelauncher_mod.so libs_mc/lib/x86_64/
-          cp ../manifest/build/gamecontrollerdb/gamecontrollerdb.txt   libs_mc/
+          cp "$BUILD/mcpelauncher-client/mcpelauncher-client"     bin/
+          cp "$BUILD/mcpelauncher-webview/mcpelauncher-webview"   bin/
+          cp "$BUILD/mcpelauncher-errorwindow/mcpelauncher-error" bin/
+          cp "$BUILD/mcpelauncher-client/libmcpelauncher_mod.so"  libs_mc/lib/x86_64/
+          cp "$BUILD/gamecontrollerdb/gamecontrollerdb.txt"       libs_mc/
+
+          # msa-daemon (no se compila desde el manifest; opcional)
+          [ -f "$BUILD/mcpelauncher-client/msa-daemon" ] && cp "$BUILD/mcpelauncher-client/msa-daemon" bin/
 
           # Pre-compilados del UI manifest
           cp prebuilt/* bin/
