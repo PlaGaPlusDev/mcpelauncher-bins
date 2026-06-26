@@ -1,0 +1,76 @@
+name: Build x86_64
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (ej: v1.7.5)'
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout mcpelauncher-bins (pack.sh + prebuilt)
+        uses: actions/checkout@v4
+        with:
+          repository: PlaGaPlusDev/mcpelauncher-bins
+          ref: main
+          path: bins
+
+      - name: Checkout mcpelauncher-manifest
+        uses: actions/checkout@v4
+        with:
+          repository: PlaGaPlusDev/mcpelauncher-manifest
+          ref: ng
+          submodules: recursive
+          path: manifest
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y cmake ninja-build clang llvm \
+            libssl-dev libegl1-mesa-dev libgles2-mesa-dev \
+            libx11-dev libpng-dev libudev-dev libevdev-dev \
+            libdbus-1-dev libxkbcommon-dev libfontconfig-dev \
+            libfreetype-dev zlib1g-dev \
+            qt6-base-dev qt6-webengine-dev qt6-declarative-dev \
+            libpulse-dev libasound2-dev
+
+      - name: Configure & Build
+        working-directory: manifest
+        run: |
+          cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake --build build
+
+      - name: Pack binaries
+        working-directory: bins
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          rm -rf bin libs_mc
+          mkdir -p bin libs_mc/lib/x86_64
+
+          # Del manifest compilado
+          cp ../manifest/build/mcpelauncher-client/mcpelauncher-client bin/
+          cp ../manifest/build/mcpelauncher-client/mcpelauncher-webview bin/
+          cp ../manifest/build/mcpelauncher-client/mcpelauncher-error  bin/
+          cp ../manifest/build/mcpelauncher-client/msa-daemon          bin/
+          cp ../manifest/build/mcpelauncher-client/libmcpelauncher_mod.so libs_mc/lib/x86_64/
+          cp ../manifest/build/gamecontrollerdb/gamecontrollerdb.txt   libs_mc/
+
+          # Pre-compilados del UI manifest
+          cp prebuilt/* bin/
+
+          cat > bin/info.txt << EOF
+          VERSION: ${VERSION#v} (Release)
+          COMPILED: $(date -u +%Y%m%d-%H%M%S)
+          REPO: https://github.com/PlaGaPlusDev/mcpelauncher-manifest
+          ARCH: x86_64
+          EOF
+
+          ./pack.sh "$VERSION"
+
+      - name: Upload Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.version }}
+          files: bins/mcpelauncher_bins-*.tar.gz
