@@ -45,7 +45,8 @@ jobs:
       - name: Configure & Build
         working-directory: manifest
         run: |
-          cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
           cmake --build build
 
       - name: Pack binaries
