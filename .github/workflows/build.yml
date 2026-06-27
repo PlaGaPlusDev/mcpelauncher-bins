@@ -62,7 +62,8 @@ jobs:
           cp "$BUILD/mcpelauncher-client/mcpelauncher-client"     bin/
           cp "$BUILD/mcpelauncher-webview/mcpelauncher-webview"   bin/
           cp "$BUILD/mcpelauncher-errorwindow/mcpelauncher-error" bin/
-          cp "$BUILD/mcpelauncher-client/libmcpelauncher_mod.so"  libs_mc/lib/x86_64/
+          # libmcpelauncher_mod.so comes from mcpelauncher-linux-bin submodule
+          cp "../manifest/mcpelauncher-linux-bin/lib/x86_64/libmcpelauncher_mod.so" libs_mc/lib/x86_64/
           cp "$BUILD/gamecontrollerdb/gamecontrollerdb.txt"       libs_mc/
 
           # msa-daemon (no se compila desde el manifest; opcional)
