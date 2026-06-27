@@ -52,8 +52,7 @@ jobs:
       - name: Build mod stub
         run: |
           mkdir -p stub
-          cat > stub/empty.c << 'EOF'
-EOF
+          touch stub/empty.c
           gcc -shared -nostartfiles -fPIC -o stub/libmcpelauncher_mod.so stub/empty.c \
             -Wl,-soname,libmcpelauncher_mod.so -s
 
