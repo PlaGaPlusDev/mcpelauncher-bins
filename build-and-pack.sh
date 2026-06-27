@@ -27,11 +27,16 @@ echo "Copiando binarios a $DEST ..."
 mkdir -p "$DEST/bin" "$DEST/libs_mc/lib"
 
 # Del manifest principal
-cp "$BUILD/mcpelauncher-client/mcpelauncher-client"  "$DEST/bin/"
-cp "$BUILD/mcpelauncher-client/mcpelauncher-webview" "$DEST/bin/"
-cp "$BUILD/mcpelauncher-client/mcpelauncher-error"   "$DEST/bin/"
-cp "$BUILD/mcpelauncher-client/msa-daemon"           "$DEST/bin/"
-cp "$BUILD/mcpelauncher-client/libmcpelauncher_mod.so" "$DEST/libs_mc/lib/x86_64/"
+cp "$BUILD/mcpelauncher-client/mcpelauncher-client"    "$DEST/bin/"
+cp "$BUILD/mcpelauncher-webview/mcpelauncher-webview" "$DEST/bin/"
+cp "$BUILD/mcpelauncher-errorwindow/mcpelauncher-error" "$DEST/bin/"
+[ -f "$BUILD/mcpelauncher-client/msa-daemon" ] && cp "$BUILD/mcpelauncher-client/msa-daemon" "$DEST/bin/"
+# Mod stub: compilar si no existe
+if [ ! -f "$DEST/libs_mc/lib/x86_64/libmcpelauncher_mod.so" ]; then
+  mkdir -p "$DEST/libs_mc/lib/x86_64"
+  echo 'int main(){return 0;}' | gcc -shared -nostartfiles -fPIC -x c - \
+    -o "$DEST/libs_mc/lib/x86_64/libmcpelauncher_mod.so" -Wl,-soname,libmcpelauncher_mod.so -s
+fi
 cp "$BUILD/gamecontrollerdb/gamecontrollerdb.txt"    "$DEST/libs_mc/"
 
 # Pre-compilados del UI manifest (estables, trackeados en el repo)
