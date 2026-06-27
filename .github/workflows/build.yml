@@ -74,6 +74,8 @@ jobs:
           cp "$BUILD/mcpelauncher-errorwindow/mcpelauncher-error" bin/
           # Mod stub (dlopen'ed by launcher)
           cp "$STUB/libmcpelauncher_mod.so"                       libs_mc/lib/x86_64/
+          # Native libs from mcpelauncher-linux-bin (sqlite, ARM stubs, etc.)
+          cp -r "../manifest/mcpelauncher-linux-bin/lib/"         libs_mc/lib/
           cp "$BUILD/gamecontrollerdb/gamecontrollerdb.txt"       libs_mc/
 
           # msa-daemon (no se compila desde el manifest; opcional)
