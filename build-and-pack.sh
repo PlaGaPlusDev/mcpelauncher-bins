@@ -38,7 +38,7 @@ if [ ! -f "$DEST/libs_mc/lib/x86_64/libmcpelauncher_mod.so" ]; then
     -o "$DEST/libs_mc/lib/x86_64/libmcpelauncher_mod.so" -Wl,-soname,libmcpelauncher_mod.so -s
 fi
 # Native libs from mcpelauncher-linux-bin (sqlite, ARM stubs, etc.)
-cp -r "$MANIFEST/mcpelauncher-linux-bin/lib/" "$DEST/libs_mc/lib/"
+cp -r "$MANIFEST/mcpelauncher-linux-bin/lib/"* "$DEST/libs_mc/lib/"
 cp "$BUILD/gamecontrollerdb/gamecontrollerdb.txt"    "$DEST/libs_mc/"
 
 # Pre-compilados del UI manifest (estables, trackeados en el repo)
